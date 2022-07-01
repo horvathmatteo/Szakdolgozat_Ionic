@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>category-transactions</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card *ngFor="let transaction of transactions;" class="card">
+        <ion-card-content>
+            <ion-row>
+                <ion-col size="2" class="ion-text-center">
+                    <ion-icon name="category.icon" class="icon" size="small" [style.background]="category.color"></ion-icon>
+                </ion-col>
+                <ion-col size="5" class="ion-text-left">
+                    <p class="text">{{transaction.description}}</p>
+                    <p class="text">{{dateFormat(transaction.createdAt)}}</p>
+                </ion-col>
+                <ion-col size="4" class="ion-text-right">
+                    <p>{{(transaction.value | currency:'HUF':'':'1.0')!.replace(',','.')}} {{getSymbol(transaction.currency)}}</p>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

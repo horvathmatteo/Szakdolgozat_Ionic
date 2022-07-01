@@ -1,0 +1,83 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Számlák</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card>
+        <ion-card-header>
+            <ion-row>
+                <ion-col size="3" class="ion-text-right">
+                    <ion-button (click)="prevMonth()" expand="block" fill="clear" shape="round">
+                        <ion-icon name="chevron-back-outline"></ion-icon>
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6">
+                    <ion-card-title class="ion-text-center">{{getCurrentMonth(date)}}</ion-card-title>
+                </ion-col>
+                <ion-col size="3" class="ion-text-left">
+                    <ion-button (click)="nextMonth()" expand="block" fill="clear" shape="round">
+                        <ion-icon name="chevron-forward-outline"></ion-icon>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-card-header>
+
+        <ion-card-content>
+            <div class="container ion-text-center">
+                <h1>Eddigi számlák összesen</h1>
+                <h1>{{(currentAmount | currency:'HUF':'':'1.0')!.replace(',','.')}} Ft</h1>
+            </div>
+            <ion-item-divider color="light"></ion-item-divider>
+            <div class="container ion-text-center ">
+                <ion-row>
+                    <ion-col size="6">
+                        <h3>Előző havi számlák: </h3>
+                    </ion-col>
+                    <ion-col size="6" class="ion-text-right">
+                        <h3>{{(prevAmount | currency:'HUF':'':'1.0')!.replace(',','.')}} Ft</h3>
+                    </ion-col>
+                </ion-row>
+            </div>
+        </ion-card-content>
+    </ion-card>
+    <ion-card>
+        <ion-card-content>
+            <ion-row *ngFor="let invoice of currentInvoices;">
+                <ion-col size="3">
+                    <div class="progress-wrapper">
+                        <div class="current">{{calculatePercentage(invoice.value)}}%</div>
+                        <round-progress [current]="calculatePercentage(invoice.value)" [max]="100" [color]="'#45ccce'" [background]="'#eaeaea'" [radius]="30" [stroke]="5" [semicircle]="false" [rounded]="false" [clockwise]="false" [responsive]="false" [duration]="800" [animation]="'easeInOutQuart'"
+                            [animationDelay]="0"></round-progress>
+                    </div>
+                </ion-col>
+                <ion-col size="5" class="ion-text-left">
+                    <p>{{invoice.name}}</p>
+                    <p>Határidő: {{dateFormat(invoice.deadline)}}</p>
+                </ion-col>
+                <ion-col size="3">
+                    <p class="ion-text-center">{{(invoice.value | currency:'HUF':'':'1.0')!.replace(',','.')}} Ft</p>
+                    <p class="ion-text-center">Fizetve:</p>
+                    <p class="ion-text-center">
+                        <ion-checkbox *ngIf="invoice.isPaid == true" checked="true" disabled></ion-checkbox>
+                        <ion-checkbox *ngIf="invoice.isPaid == false" checked="false" (ionChange)="isPaidChecked(invoice)"></ion-checkbox>
+                    </p>
+                </ion-col>
+                <ion-col size="1">
+                    <ion-button (click)="deleteInvoice(invoice)" fill="clear" size="small">
+                        <ion-icon name="trash-outline"></ion-icon>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button [routerLink]="['/invoices/add-invoice']">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>

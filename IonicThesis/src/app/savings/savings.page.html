@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Megtakarítások</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card *ngFor="let saving of savings;">
+        <ion-card-header>
+            <ion-button (click)="presentDeleteConfirm(saving)" fill="clear" size="small" class="close">
+                <ion-icon name="close"></ion-icon>
+            </ion-button>
+            <ion-card-title class="ion-text-center">{{saving.name}}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+            <div class="container ion-text-center">
+                <h1>Eddig megtakarított összeg: {{(saving.currentAmount | currency:'HUF':'':'1.0')!.replace(',','.')}} Ft</h1>
+            </div>
+            <div class="progress-outer" [style.width.%]="100">
+                <div class="progress-inner" [style.width.%]="calculatePercentage(saving)">
+                    <div> {{(saving.currentAmount | currency:'HUF':'':'1.0')!.replace(',','.')}} Ft / {{(saving.targetAmount | currency:'HUF':'':'1.0')!.replace(',','.')}} Ft</div>
+                </div>
+            </div>
+            <ion-item-divider color="light"></ion-item-divider>
+            <ion-row *ngIf="!saving.isReached">
+                <ion-col size="6" class="ion-text-center">
+                    <button class="btn-circle remove" (click)="presentRemoveModal(saving)"><ion-icon name="remove-outline"></ion-icon></button>
+                </ion-col>
+                <ion-col size="6" class="ion-text-center">
+                    <button class="btn-circle add" (click)="presentAddModal(saving)"><ion-icon name="add-outline"></ion-icon></button>
+                </ion-col>
+            </ion-row>
+            <ion-row *ngIf="saving.isReached">
+                <ion-col size="12" class="ion-text-center">
+                    <ion-icon name="checkmark-circle-outline" class="icon"></ion-icon>
+                    <p>Gratulálunk elérted a kitűzött összeget!</p>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button [routerLink]="['/savings/add-saving']">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>

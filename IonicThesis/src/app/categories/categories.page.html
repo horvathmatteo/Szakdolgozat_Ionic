@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Kategóriák</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid class="category-grid">
+        <ion-row>
+            <ion-col *ngFor="let category of categories;" class="ion-text-center" size="4">
+                <button class="btn-circle" [style.background]="category.color" (click)="showCategoryTransactions(category)">
+                    <ion-icon slot="start" name="{{category.icon}}"></ion-icon>
+                </button>
+                <div class="label">{{category.id}}</div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button [routerLink]="['/categories/add-category']">
+            <ion-icon name="add" class="icon"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>

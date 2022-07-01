@@ -1,0 +1,57 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button [routerLink]="['/invoices']"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Új számla hozzáadása</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="invoiceForm" class="form">
+        <div class="input-group">
+            <ion-item>
+                <ion-label>Pénznem:</ion-label>
+                <ion-select placeholder="Válassz pénznemet" interface="popover" formControlName="currencyCode" (ionChange)="getSymbol($event)">
+                    <ion-select-option *ngFor="let currency of currencies" [value]="currency">{{currency}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <div *ngIf="(invoiceForm.controls['currencyCode'].dirty || invoiceForm.controls['currencyCode'].touched) && invoiceForm.controls['currencyCode'].errors" class="errors">
+                <span *ngIf="invoiceForm.controls['currencyCode'].errors?.required">Kérlek válassz pénznemet</span>
+            </div>
+            <ion-item>
+                <ion-label>Összeg: </ion-label>
+                <ion-input type="number" class="ion-text-right" formControlName="value"></ion-input> {{symbol}}
+            </ion-item>
+            <div *ngIf="(invoiceForm.controls['value'].dirty || invoiceForm.controls['value'].touched) && invoiceForm.controls['value'].errors" class="errors">
+                <span *ngIf="invoiceForm.controls['value'].errors?.required">Az összeg nem maradhat üresen</span>
+            </div>
+            <ion-item>
+                <ion-label>Leírás: </ion-label>
+                <ion-input type="text" class="ion-text-right" formControlName="description"></ion-input>
+            </ion-item>
+            <div *ngIf="(invoiceForm.controls['description'].dirty || invoiceForm.controls['description'].touched) && invoiceForm.controls['description'].errors" class="errors">
+                <span *ngIf="invoiceForm.controls['description'].errors?.required">Leírás hozzáadása kötelező</span>
+            </div>
+            <ion-item button="true" id="open-date-input">
+                <ion-label>Fizetési határidő:</ion-label>
+                <ion-text slot="end">{{ selectedDate }}</ion-text>
+                <ion-popover trigger="open-date-input" show-backdrop="false">
+                    <ng-template>
+                        <ion-datetime #popoverDatetime presentation="date" (ionChange)="selectedDate = dateChange(popoverDatetime.value)" formControlName="date"></ion-datetime>
+                    </ng-template>
+                </ion-popover>
+            </ion-item>
+            <div *ngIf="(invoiceForm.controls['date'].dirty || invoiceForm.controls['date'].touched) && invoiceForm.controls['date'].errors" class="errors">
+                <span *ngIf="invoiceForm.controls['date'].errors?.required">Kérlek válassz dátumot</span>
+            </div>
+            <ion-item button="true" id="open-date-input">
+                <ion-label>Figyelmeztetés:</ion-label>
+                <ion-toggle></ion-toggle>
+            </ion-item>
+        </div>
+    </form>
+    <ion-button (click)="createInvoice()" expand="block" fill="clear" shape="round" [disabled]="!invoiceForm.valid">
+        Hozzáadás
+    </ion-button>
+</ion-content>

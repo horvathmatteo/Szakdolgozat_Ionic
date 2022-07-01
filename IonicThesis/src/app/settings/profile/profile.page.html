@@ -1,0 +1,32 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button [routerLink]="['/settings']" text="Vissza"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Profilom módosítása</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card>
+        <ion-card-header>
+            <ion-avatar (click)="changePhoto()" class="avatar">
+                <img *ngIf="user?.photoUrl; else placheolder_avatar;" [src]="user?.photoUrl" />
+                <ng-template #placheolder_avatar>
+                    <div class="fallback">
+                        <p>Select avatar</p>
+                    </div>
+                </ng-template>
+            </ion-avatar>
+            <ion-card-title class="ion-text-center">
+                <ion-item>
+                    <ion-label position="floating">Megjelenített név: </ion-label>
+                    <ion-input [(ngModel)]="displayName"></ion-input>
+                </ion-item>
+            </ion-card-title>
+        </ion-card-header>
+        <ion-button (click)="changeDisplayedName()" expand="block" fill="clear" shape="round">
+            Név módosítása
+        </ion-button>
+    </ion-card>
+</ion-content>

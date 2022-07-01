@@ -1,0 +1,26 @@
+.icon {
+    border-radius: 50%;
+    border: 1px solid white;
+    width: 50px;
+    height: 50px;
+    color: white;
+}
+
+ion-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.ion-card,
+.card-ios,
+.card-md,
+.card {
+    margin-bottom: 3px !important;
+    margin-top: 0px !important;
+}
+
+.text {
+    margin-left: 10px;
+}

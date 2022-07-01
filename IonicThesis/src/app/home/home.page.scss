@@ -1,0 +1,52 @@
+ion-progress-bar {
+    height: 30px;
+}
+
+ion-item-divider {
+    margin-top: 10px;
+}
+
+.container {
+    margin-bottom: 10px;
+}
+
+//progress bar
+.progress-outer {
+    margin-top: 10px;
+    padding: 3px;
+    text-align: center;
+    background-color: #f4f4f4;
+    border: 1px solid #dcdcdc;
+    color: rgb(49, 47, 47);
+    border-radius: 15px;
+}
+
+.progress-inner {
+    white-space: nowrap;
+    padding: 5px;
+    border-radius: 15px;
+    background-color: var(--ion-color-primary);
+}
+
+.ion-card,
+.card-ios,
+.card-md,
+.card {
+    margin-bottom: 3px !important;
+    margin-top: 0px !important;
+}
+
+.icon {
+    border-radius: 50%;
+    border: 1px solid white;
+    width: 50px;
+    height: 50px;
+    color: white;
+}
+
+ion-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}

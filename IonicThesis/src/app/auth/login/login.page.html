@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Bejelentkezés</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="credentials">
+        <div class="input-group">
+            <ion-item>
+                <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+            </ion-item>
+            <div *ngIf="(credentials.controls['email'].dirty || credentials.controls['email'].touched) && credentials.controls['email'].errors" class="errors">
+                <span *ngIf="credentials.controls['email'].errors?.required">Email megadása kötelező</span>
+                <span *ngIf="credentials.controls['email'].errors?.email">Hibás email cím</span>
+            </div>
+            <ion-item>
+                <ion-input type="password" placeholder="Jelszo" formControlName="password"></ion-input>
+            </ion-item>
+            <div *ngIf="(credentials.controls['password'].dirty || credentials.controls['password'].touched) && credentials.controls['password'].errors" class="errors">
+                <span *ngIf="credentials.controls['password'].errors?.required">Jelszó megadása kötelező</span>
+                <span *ngIf="credentials.controls['password'].errors?.minlength">A jelszónak legalább 6 karakter hosszúnak kell lennie</span>
+            </div>
+        </div>
+
+        <ion-button type="submit" (click)="logIn()" expand="block" [disabled]="!credentials.valid">Bejelentkezés</ion-button>
+        <ion-button [routerLink]="['/register']" type="button" expand="block" color="white" fill="clear">Nincs még fiókod? Regisztráció
+        </ion-button>
+
+        <ion-button type="submit" expand="block" color="tertiary" (click)="authService.GoogleAuth()">
+            <ion-icon name="logo-google" slot="start"></ion-icon>
+            Bejelentkezés Google fiókkal
+        </ion-button>
+    </form>
+</ion-content>

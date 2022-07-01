@@ -1,0 +1,46 @@
+.row {
+    border-color: white;
+    border-width: .01em;
+    border-bottom: 1px solid;
+}
+
+ion-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.icon {
+    border-radius: 50%;
+    border: 1px solid white;
+    width: 50px;
+    height: 50px;
+    color: white;
+}
+
+.text {
+    margin-left: 10px;
+}
+
+.divider {
+    margin-bottom: 2px;
+}
+
+.ion-card,
+.card-ios,
+.card-md,
+.card {
+    margin-bottom: 3px !important;
+    margin-top: 0px !important;
+}
+
+.typeText {
+    color: black;
+    text-decoration: none;
+}
+
+.typeCol {
+    margin-bottom: 10px;
+    border-bottom: 2px solid white;
+}

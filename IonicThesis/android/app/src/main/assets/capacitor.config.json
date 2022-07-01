@@ -1,0 +1,6 @@
+{
+	"appId": "hu.personal",
+	"appName": "IonicThesis",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

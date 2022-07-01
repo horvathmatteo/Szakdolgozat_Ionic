@@ -1,0 +1,78 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Exportálás</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="export" class="form">
+        <div class="input-group">
+            <ion-item>
+                <ion-label>Számla:</ion-label>
+                <ion-select placeholder="Válassz számlát" interface="popover" formControlName="type">
+                    <ion-select-option value="card">Bankkártya</ion-select-option>
+                    <ion-select-option value="cash">Készpénz</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <div *ngIf="(export.controls['type'].dirty || export.controls['type'].touched) && export.controls['type'].errors" class="errors">
+                <span *ngIf="export.controls['type'].errors?.required">Kérlek válassz, hogy bankkártya vagy készpénz</span>
+            </div>
+            <ion-item button="true" id="open-date-input">
+                <ion-label>Ettől a dátumtól:</ion-label>
+                <ion-text slot="end">{{ start }}</ion-text>
+                <ion-popover trigger="open-date-input" show-backdrop="false">
+                    <ng-template>
+                        <ion-datetime #popoverDatetime presentation="date" (ionChange)="start = dateChange(popoverDatetime.value)" formControlName="start"></ion-datetime>
+                    </ng-template>
+                </ion-popover>
+            </ion-item>
+            <div *ngIf="(export.controls['start'].dirty || export.controls['start'].touched) && export.controls['start'].errors" class="errors">
+                <span *ngIf="export.controls['start'].errors?.required">Kérlek válassz dátumot</span>
+            </div>
+            <ion-item button="true" id="open-date-input-end">
+                <ion-label>Eddig a dátumig:</ion-label>
+                <ion-text slot="end">{{ end }}</ion-text>
+                <ion-popover trigger="open-date-input-end" show-backdrop="false">
+                    <ng-template>
+                        <ion-datetime #popoverDatetime presentation="date" (ionChange)="end = dateChange(popoverDatetime.value)" formControlName="end"></ion-datetime>
+                    </ng-template>
+                </ion-popover>
+            </ion-item>
+            <div *ngIf="(export.controls['end'].dirty || export.controls['end'].touched) && export.controls['end'].errors" class="errors">
+                <span *ngIf="export.controls['end'].errors?.required">Kérlek válassz dátumot</span>
+            </div>
+        </div>
+    </form>
+    <ion-row>
+        <ion-col size="6">
+            <ion-button (click)="getData()" expand="block" fill="clear" shape="round" [disabled]="!export.valid">
+                Lekérdezés
+            </ion-button>
+        </ion-col>
+        <ion-col size="6">
+            <ion-button (click)="OnExport()" expand="block" fill="clear" shape="round" [disabled]="!canExport">
+                Exportálás
+            </ion-button>
+        </ion-col>
+    </ion-row>
+
+    <ion-card *ngFor="let transaction of transactions;" class="card">
+        <ion-card-content>
+            <ion-row>
+                <ion-col size="2" class="ion-text-center">
+                    <ion-icon name="{{getIconString(transaction)}}" class="icon" size="small" [style.background]="getIconColor(transaction)"></ion-icon>
+                </ion-col>
+                <ion-col size="5" class="ion-text-left">
+                    <p class="text">{{transaction.description}}</p>
+                    <p class="text">{{dateFormat(transaction.createdAt)}}</p>
+                </ion-col>
+                <ion-col size="4" class="ion-text-right">
+                    <p>{{(transaction.value | currency:'HUF':'':'1.0')!.replace(',','.')}} {{getSymbol(transaction.currency)}}</p>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

@@ -1,0 +1,83 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button [routerLink]="['/detailed-balance']"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Hozzáadás</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="transaction" class="form">
+        <div class="input-group">
+            <ion-segment (ionChange)="typeChanged($event)" value="expenses" formControlName="transactionType">
+                <ion-segment-button value="expenses">
+                    <ion-label>Kiadás</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="incomes">
+                    <ion-label>Bevétel</ion-label>
+                </ion-segment-button>
+            </ion-segment>
+            <div *ngIf="(transaction.controls['transactionType'].dirty || transaction.controls['transactionType'].touched) && transaction.controls['transactionType'].errors" class="errors">
+                <span *ngIf="transaction.controls['transactionType'].errors?.required">Kérlek válassz, hogy kiadás vagy bevétel</span>
+            </div>
+            <ion-item>
+                <ion-label>Számla:</ion-label>
+                <ion-select placeholder="Válassz számlát" interface="popover" formControlName="type">
+                    <ion-select-option value="card">Bankkártya</ion-select-option>
+                    <ion-select-option value="cash">Készpénz</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <div *ngIf="(transaction.controls['type'].dirty || transaction.controls['type'].touched) && transaction.controls['type'].errors" class="errors">
+                <span *ngIf="transaction.controls['type'].errors?.required">Kérlek válassz, hogy bankkártya vagy készpénz</span>
+            </div>
+            <ion-item>
+                <ion-label>Kategória: </ion-label>
+                <ion-select placeholder="Válassz kategóriát" interface="popover" formControlName="category">
+                    <ion-select-option *ngFor="let category of categories" [value]="category.id">{{category.id}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <div *ngIf="(transaction.controls['category'].dirty || transaction.controls['category'].touched) && transaction.controls['category'].errors" class="errors">
+                <span *ngIf="transaction.controls['category'].errors?.required">Kérlek válassz kategóriát</span>
+            </div>
+            <ion-item>
+                <ion-label>Pénznem:</ion-label>
+                <ion-select placeholder="Válassz pénznemet" interface="popover" formControlName="currencyCode" (ionChange)="getSymbol($event)">
+                    <ion-select-option *ngFor="let currency of currencies" [value]="currency">{{currency}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <div *ngIf="(transaction.controls['currencyCode'].dirty || transaction.controls['currencyCode'].touched) && transaction.controls['currencyCode'].errors" class="errors">
+                <span *ngIf="transaction.controls['currencyCode'].errors?.required">Kérlek válassz pénznemet</span>
+            </div>
+            <ion-item>
+                <ion-label>Összeg: </ion-label>
+                <ion-input type="number" class="ion-text-right" formControlName="value"></ion-input> {{symbol}}
+            </ion-item>
+            <div *ngIf="(transaction.controls['value'].dirty || transaction.controls['value'].touched) && transaction.controls['value'].errors" class="errors">
+                <span *ngIf="transaction.controls['value'].errors?.required">Az összeg nem maradhat üresen</span>
+            </div>
+            <ion-item>
+                <ion-label>Leírás: </ion-label>
+                <ion-input type="text" class="ion-text-right" formControlName="description"></ion-input>
+            </ion-item>
+            <div *ngIf="(transaction.controls['description'].dirty || transaction.controls['description'].touched) && transaction.controls['description'].errors" class="errors">
+                <span *ngIf="transaction.controls['description'].errors?.required">Leírás hozzáadása kötelező</span>
+            </div>
+            <ion-item button="true" id="open-date-input">
+                <ion-label>Dátum:</ion-label>
+                <ion-text slot="end">{{ selectedDate }}</ion-text>
+                <ion-popover trigger="open-date-input" show-backdrop="false">
+                    <ng-template>
+                        <ion-datetime #popoverDatetime presentation="date" (ionChange)="selectedDate = dateChange(popoverDatetime.value)" formControlName="date"></ion-datetime>
+                    </ng-template>
+                </ion-popover>
+            </ion-item>
+            <div *ngIf="(transaction.controls['date'].dirty || transaction.controls['date'].touched) && transaction.controls['date'].errors" class="errors">
+                <span *ngIf="transaction.controls['date'].errors?.required">Kérlek válassz dátumot</span>
+            </div>
+        </div>
+    </form>
+    <ion-button (click)="createTransaction()" expand="block" fill="clear" shape="round" [disabled]="!transaction.valid">
+        Hozzáadás
+    </ion-button>
+</ion-content>

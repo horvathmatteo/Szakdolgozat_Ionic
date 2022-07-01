@@ -1,0 +1,25 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Email megerősítése</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-center">
+    <ion-grid>
+        <ion-row class="ion-align-items-center">
+            <h2 class="ion-text-center">Email cím megerősítése</h2>
+            <p>
+                A regisztráció véglegesítéshez meg kell erősítened az email címed. A megerősítő emailt kiküldtük az email címedre.
+            </p>
+            <p>
+                Nem kaptál email-t?
+            </p>
+            <ion-button (click)="authService.SendVerificationEmail()" expand="block" fill="clear" shape="round">
+                Megerősítő email újraküldése
+            </ion-button>
+            <ion-button [routerLink]="['/login']" expand="block" fill="clear" shape="round">
+                Bejelentkezés
+            </ion-button>
+        </ion-row>
+    </ion-grid>
+</ion-content>

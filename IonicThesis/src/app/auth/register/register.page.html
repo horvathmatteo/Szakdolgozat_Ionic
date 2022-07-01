@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Regisztráció</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="userData">
+        <div class="input-group">
+            <ion-item>
+                <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+            </ion-item>
+            <div *ngIf="(userData.controls['email'].dirty || userData.controls['email'].touched) && userData.controls['email'].errors" class="errors">
+                <span *ngIf="userData.controls['email'].errors?.required">Email megadása kötelező</span>
+                <span *ngIf="userData.controls['email'].errors?.email">Hibás email cím</span>
+            </div>
+            <ion-item>
+                <ion-input type="password" placeholder="Jelszo" formControlName="password"></ion-input>
+            </ion-item>
+            <div *ngIf="(userData.controls['password'].dirty || userData.controls['password'].touched) && userData.controls['password'].errors" class="errors">
+                <span *ngIf="userData.controls['password'].errors?.required">Jelszó megadása kötelező</span>
+                <span *ngIf="userData.controls['password'].errors?.minlength">A jelszónak legalább 6 karakter hosszúnak kell lennie</span>
+            </div>
+        </div>
+
+        <ion-button type="submit" (click)="signUp()" expand="block" [disabled]="!userData.valid">Regisztráció</ion-button>
+        <ion-button [routerLink]="['/login']" type="button" expand="block" color="white" fill="clear">Van már fiókod? Bejelentkezés
+        </ion-button>
+    </form>
+</ion-content>

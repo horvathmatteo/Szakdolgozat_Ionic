@@ -1,0 +1,32 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button [routerLink]="['/savings']"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Új hozzáadása</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="savingForm" class="form">
+        <div class="input-group">
+            <ion-item>
+                <ion-label>Cél összeg(forintban): </ion-label>
+                <ion-input type="number" class="ion-text-right" formControlName="targetValue"></ion-input> Ft
+            </ion-item>
+            <div *ngIf="(savingForm.controls['targetValue'].dirty || savingForm.controls['targetValue'].touched) && savingForm.controls['targetValue'].errors" class="errors">
+                <span *ngIf="savingForm.controls['targetValue'].errors?.required">Az összeg nem maradhat üresen</span>
+            </div>
+            <ion-item>
+                <ion-label>Leírás: </ion-label>
+                <ion-input type="text" class="ion-text-right" formControlName="description"></ion-input>
+            </ion-item>
+            <div *ngIf="(savingForm.controls['description'].dirty || savingForm.controls['description'].touched) && savingForm.controls['description'].errors" class="errors">
+                <span *ngIf="savingForm.controls['description'].errors?.required">Leírás hozzáadása kötelező</span>
+            </div>
+        </div>
+    </form>
+    <ion-button (click)="createNewSaving()" expand="block" fill="clear" shape="round" [disabled]="!savingForm.valid">
+        Hozzáadás
+    </ion-button>
+</ion-content>

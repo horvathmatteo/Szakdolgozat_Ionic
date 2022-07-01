@@ -1,0 +1,90 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Egyenleg</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card>
+        <ion-card-header>
+            <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
+            <ion-card-title class="ion-text-center">{{getCurrentMonth()}}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+            <div class="ion-text-center">Összes elérhető egyenleg</div>
+            <div class="container ion-text-center">
+                <h1>{{(currentBalance | currency:'HUF':'':'1.0')!.replace(',','.')}} Ft</h1>
+            </div>
+            <div class="ion-text-center">Kiadás / Bevétel</div>
+            <div class="progress-outer" [style.width.%]="100">
+                <div class="progress-inner" [style.width.%]="calculatePercentage()">
+                    <div> {{(-expenseBalance | currency:'HUF':'':'1.0')!.replace(',','.')}} Ft / {{(incomeBalance | currency:'HUF':'':'1.0')!.replace(',','.')}} Ft</div>
+                </div>
+            </div>
+            <ion-item-divider color="light"></ion-item-divider>
+            <div class="container ion-text-center ">
+                <ion-button [routerLink]="['/detailed-balance']" expand="block" fill="clear" shape="round">
+                    RÉSZLETEK MEGJELENÍTÉSE
+                </ion-button>
+            </div>
+        </ion-card-content>
+    </ion-card>
+    <ion-card>
+        <ion-card-header>
+            <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
+            <ion-card-title class="ion-text-center">Előző havi összesítés</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+                        Összes bevétel
+                    </ion-col>
+                    <ion-col class="ion-text-right">
+                        {{(prevIncomeBalance | currency:'HUF':'':'1.0')!.replace(',','.')}} Ft
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        Összes kiadás
+                    </ion-col>
+                    <ion-col class="ion-text-right">
+                        {{(prevExpenseBalance | currency:'HUF':'':'1.0')!.replace(',','.')}} Ft
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="12" class="ion-text-center">
+                        <div>Záró egyenleg</div>
+                        <div>{{(prevBalance | currency:'HUF':'':'1.0')!.replace(',','.')}} Ft</div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title class="ion-text-center">Utoljára hozzáadva</ion-card-title>
+        </ion-card-header>
+    </ion-card>
+    <ion-card *ngFor="let transaction of sortTransactions() | slice:0:5;" class="card">
+        <ion-card-content>
+            <ion-row>
+                <ion-col size="2" class="ion-text-center">
+                    <ion-icon name="{{getIconString(transaction)}}" class="icon" size="small" [style.background]="getIconColor(transaction)"></ion-icon>
+                </ion-col>
+                <ion-col size="5" class="ion-text-left">
+                    <p class="text">{{transaction.description}}</p>
+                    <p class="text">{{dateFormat(transaction.createdAt)}}</p>
+                </ion-col>
+                <ion-col size="4" class="ion-text-right">
+                    <p>{{(transaction.value | currency:'HUF':'':'1.0')!.replace(',','.')}} {{getSymbol(transaction.currency)}}</p>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

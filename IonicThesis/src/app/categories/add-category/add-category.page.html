@@ -1,0 +1,76 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button [routerLink]="['/categories']" text="Vissza"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Új kategória</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="categoryForm" class="form">
+        <div class="input-group">
+            <ion-item>
+                <ion-label>Kategória neve: </ion-label>
+                <ion-input type="text" class="ion-text-right" formControlName="name"></ion-input>
+            </ion-item>
+            <div *ngIf="(categoryForm.controls['name'].dirty || categoryForm.controls['name'].touched) && categoryForm.controls['name'].errors" class="errors">
+                <span *ngIf="categoryForm.controls['name'].errors?.required">Az név nem maradhat üresen</span>
+            </div>
+            <ion-segment value="expenses" formControlName="categoryType" class="margin-top">
+                <ion-segment-button value="expenses">
+                    <ion-label>Kiadás</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="incomes">
+                    <ion-label>Bevétel</ion-label>
+                </ion-segment-button>
+            </ion-segment>
+            <div *ngIf="(categoryForm.controls['categoryType'].dirty || categoryForm.controls['categoryType'].touched) && categoryForm.controls['categoryType'].errors" class="errors">
+                <span *ngIf="categoryForm.controls['categoryType'].errors?.required">Kérlek válassz, hogy kiadás vagy bevétel</span>
+            </div>
+            <div class="ion-text-center margin-top">Válassz egy ikont: </div>
+            <swiper [config]="swiperConfig">
+                <ng-template swiperSlide>
+                    <ion-grid class="category-grid">
+                        <ion-row>
+                            <ion-col *ngFor="let category of categoryStrings | slice:0:9;" class="colClass" size="4">
+                                <button class="btn-circle" (click)="setIcon(category)" [ngClass]="{'active': category == iconStr}">
+                                    <ion-icon slot="start" name="{{category}}" class="iconClass"></ion-icon>
+                                </button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ng-template>
+                <ng-template swiperSlide>
+                    <ion-grid class="category-grid">
+                        <ion-row>
+                            <ion-col *ngFor="let category of categoryStrings | slice:10:19" class="colClass" size="4">
+                                <button class="btn-circle" (click)="setIcon(category)" [ngClass]="{'active': category == iconStr}">
+                              <ion-icon slot="start" name="{{category}}" class="iconClass"></ion-icon>
+                            </button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ng-template>
+                <ng-template swiperSlide>
+                    <ion-grid class="category-grid">
+                        <ion-row>
+                            <ion-col *ngFor="let category of categoryStrings | slice:20:26;" class="colClass" size="4">
+                                <button class="btn-circle" (click)="setIcon(category)" [ngClass]="{'active': category == iconStr}">
+                              <ion-icon slot="start" name="{{category}}" class="iconClass"></ion-icon>
+                            </button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ng-template>
+            </swiper>
+            <ion-item>
+                <ion-label>Válassz egy színt: </ion-label>
+                <input [(colorPicker)]="color" [style.background]="color" />
+            </ion-item>
+        </div>
+    </form>
+    <ion-button (click)="createNewCategory()" expand="block" fill="clear" shape="round" [disabled]="!categoryForm.valid">
+        Hozzáadás
+    </ion-button>
+</ion-content>

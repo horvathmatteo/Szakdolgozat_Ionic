@@ -1,0 +1,36 @@
+<ion-content>
+    <ion-row>
+        <ion-col *ngIf="option == 'add'" size="12" class="ion-text-center title">
+            <p>Mekkora összeget szeretnél félretenni?</p>
+        </ion-col>
+        <ion-col *ngIf="option == 'remove'" size="12" class="ion-text-center title">
+            <p>Mekkora összeget szeretnél elvenni?</p>
+        </ion-col>
+    </ion-row>
+    <form [formGroup]="savingForm" class="form">
+        <div class="input-group">
+            <ion-item class="formInput">
+                <ion-label>Pénznem:</ion-label>
+                <ion-select placeholder="Válassz pénznemet" interface="popover" formControlName="currencyCode" (ionChange)="getSymbol($event)">
+                    <ion-select-option *ngFor="let currency of currencies" [value]="currency">{{currency}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <div *ngIf="(savingForm.controls['currencyCode'].dirty || savingForm.controls['currencyCode'].touched) && savingForm.controls['currencyCode'].errors" class="errors">
+                <span *ngIf="savingForm.controls['currencyCode'].errors?.required">Kérlek válassz pénznemet</span>
+            </div>
+            <ion-item class="formInput">
+                <ion-label>Összeg: </ion-label>
+                <ion-input type="number" class="ion-text-right" formControlName="amount"></ion-input> {{symbol}}
+            </ion-item>
+            <div *ngIf="(savingForm.controls['amount'].dirty || savingForm.controls['amount'].touched) && savingForm.controls['amount'].errors" class="errors">
+                <span *ngIf="savingForm.controls['amount'].errors?.required">Az összeg nem maradhat üresen</span>
+            </div>
+        </div>
+    </form>
+    <ion-button *ngIf="option == 'add'" (click)="addAmount()" expand="block" fill="clear" shape="round">
+        Hozzáadás
+    </ion-button>
+    <ion-button *ngIf="option == 'remove'" (click)="addAmount()" expand="block" fill="clear" shape="round">
+        Elvétel
+    </ion-button>
+</ion-content>

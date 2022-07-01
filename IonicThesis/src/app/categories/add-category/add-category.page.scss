@@ -1,0 +1,55 @@
+.btn-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    font-size: 40px;
+    text-align: center;
+    display: block;
+    align-items: center;
+    justify-content: center;
+}
+
+.active {
+    background: rgb(135, 128, 245) !important;
+}
+
+.iconClass {
+    font-size: 35px;
+    color: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+}
+
+.category-grid {
+    margin-top: 10px;
+}
+
+.colClass {
+    display: flex;
+    justify-content: center;
+}
+
+swiper {
+    padding-bottom: 30px !important;
+}
+
+.form {
+    margin-top: 40px;
+}
+
+.margin-top {
+    margin-top: 10px;
+}
+
+.errors {
+    font-size: small;
+    color: #fff;
+    background: var(--ion-color-danger);
+    padding-left: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
